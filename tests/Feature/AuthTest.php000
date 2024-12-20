@@ -1,0 +1,75 @@
+<?php
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+use App\Models\User;
+
+class AuthTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Тестируем успешную регистрацию пользователя.
+     *
+     * @return void
+     */
+    public function it_allows_valid_user_registration()
+    {
+        // Отправляем запрос на регистрацию
+        $response = $this->postJson('/api/register', [
+            'name' => 'Valid User',
+            'email' => 'valid@example.com',
+            'password' => 'Password123',
+            'password_confirmation' => 'Password123', // Добавляем поле подтверждения пароля
+        ]);
+
+        // Проверяем, что статус 201 и получен токен
+        $response->assertStatus(201)
+            ->assertJsonStructure(['token']);
+
+        // Проверяем, что пользователь зарегистрировался в базе данных
+        $this->assertDatabaseHas('users', [
+            'email' => 'valid@example.com',
+        ]);
+    }
+
+    /**
+     * Тестируем регистрацию с некорректным email.
+     *
+     * @return void
+     */
+    public function it_rejects_registration_with_invalid_email()
+    {
+        $response = $this->postJson('/api/register', [
+            'name' => 'Test User',
+            'email' => 'invalid-email', // Некорректный email
+            'password' => 'Password123',
+            'password_confirmation' => 'Password123',
+        ]);
+
+        // Проверяем статус 400 и наличие ошибок валидации по email
+        $response->assertStatus(400)
+            ->assertJsonValidationErrors(['email']);
+    }
+
+    /**
+     * Тестируем регистрацию с слабым паролем.
+     *
+     * @return void
+     */
+    public function it_rejects_registration_with_weak_password()
+    {
+        $response = $this->postJson('/api/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => '123456', // Слабый пароль
+            'password_confirmation' => '123456', // Поле подтверждения пароля
+        ]);
+
+        // Проверяем статус 400 и наличие ошибок валидации по паролю
+        $response->assertStatus(400)
+            ->assertJsonValidationErrors(['password']);
+    }
+}

@@ -13,11 +13,18 @@ class AuthController extends Controller {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Минимальная длина 8 символов
+                'regex:/[a-z]/', // Должен содержать строчные буквы
+                'regex:/[A-Z]/', // Должен содержать заглавные буквы
+                'regex:/[0-9]/', // Должен содержать цифры
+            ],
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json($validator->errors(), 400);
         }
 
         $user = User::create([
@@ -39,5 +46,10 @@ class AuthController extends Controller {
         }
 
         return response()->json(['token' => $token]);
+    }
+
+    public function profile(Request $request)
+    {
+        return response()->json(['user' => $request->user()]);
     }
 }
