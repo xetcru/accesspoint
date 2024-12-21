@@ -1,0 +1,91 @@
+<?php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+class AuthController extends Controller
+{
+    // Показать форму регистрации
+    public function showRegisterForm()
+    {
+        return view('register');
+    }
+
+    // Обработать регистрацию
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            //return response()->json(['errors' => $validator->errors()], 422);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        Auth::login($user);
+
+        //return response()->json(['message' => 'User registered successfully'], 201);
+        return redirect()->route('home');
+    }
+
+    // Показать форму авторизации
+    public function showLoginForm()
+    {
+        return view('login');
+    }
+
+    // Авторизация пользователя
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        /*if (!$token = auth('api')->attempt($credentials)) {
+            return response()->json(['error' => 'Invalid credentials'], 401);
+        }*/
+        if (Auth::attempt($credentials)) {
+            return redirect()->route('home');
+        }
+
+        /*return response()->json([
+            'token' => $token,
+            'user' => auth('api')->user(),
+        ]);*/
+        return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
+    }
+
+    // Получение текущего пользователя
+    public function user()
+    {
+        return response()->json(auth('api')->user());
+    }
+
+    // Выход пользователя
+    public function logout()
+    {
+        //auth('api')->logout();
+        Auth::logout();
+        //return response()->json(['message' => 'Logged out successfully']);
+        return redirect()->route('login');
+    }
+}
