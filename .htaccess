@@ -7,10 +7,17 @@ RewriteRule ^test$ /public/index.php [L]
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Обслуживаем статические файлы React
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^build/(.*)$ build/$1 [L,QSA]
+
     # Проверяем, есть ли файл или папка
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
 
     # Перенаправляем запросы в public/
-    RewriteRule ^(.*)$ public/$1 [L]
+    # RewriteRule ^(.*)$ public/$1 [L]
+
+    # Laravel: отправляем запросы в index.php
+    RewriteRule ^(.*)$ index.php [L]
 </IfModule>
