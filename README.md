@@ -7,60 +7,102 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Full-stack Регистрация/Авторизация с использованием ReactJS и Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Описание
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Этот проект представляет собой реализацию системы регистрации и авторизации с использованием **ReactJS** для фронтенда и **Laravel** для бэкенда. Реализованы все основные требования, включая валидацию данных, использование JWT-токенов для авторизации, а также автотесты для проверки функционала регистрации пользователей.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Стек технологий
 
-## Learning Laravel
+- **Frontend**: ReactJS
+- **Backend**: Laravel
+- **База данных**: MySQL (или другая на ваш выбор)
+- **Авторизация**: JWT (JSON Web Tokens)
+- **Автотесты**: PHPUnit (для Laravel)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Особенности
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Форма регистрации и авторизации** с валидацией:
+  - Пароль должен содержать символы в разных регистрах и цифры.
+  - Проверка обязательных полей (имя, email, пароль).
+- **JWT-токены** для авторизации:
+  - Генерация токена при успешной регистрации и логине.
+  - Хранение токена в локальном хранилище браузера.
+- **Автотесты**:
+  - Тестирование процесса регистрации с валидацией данных.
+  - Тестирование успешной и неуспешной авторизации.
+  
+## Установка
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Клонирование репозитория
 
-## Laravel Sponsors
+git clone https://github.com/your-username/fullstack-auth-project.git
+cd fullstack-auth-project
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Установка зависимостей для бэкенда (Laravel)
+Перейдите в папку с бэкендом и установите зависимости:
+cd backend
+composer install
 
-### Premium Partners
+Создайте .env файл, настроив подключение к базе данных:
+cp .env.example .env
+php artisan key:generate
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 3. Установка зависимостей для фронтенда (ReactJS)
+Перейдите в папку с фронтендом и установите зависимости:
+cd ../frontend
+npm install
 
-## Contributing
+### 4. Запуск сервера
+Бэкенд (Laravel):
+php artisan serve
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+По умолчанию сервер будет доступен по адресу http://localhost:8000.
 
-## Code of Conduct
+Фронтенд (ReactJS):
+npm start
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Фронтенд будет доступен по адресу http://localhost:3000.
 
-## Security Vulnerabilities
+### 5. Миграции
+Для того чтобы настроить базу данных, выполните миграции:
+php artisan migrate
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Структура проекта
 
-## License
+### 1. Frontend (ReactJS)
+- src/components: Компоненты для регистрации и авторизации.
+- src/services: API-клиенты для работы с бэкендом (регистрация, авторизация).
+- src/redux: Состояния и действия для управления авторизацией и пользовательскими данными.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2. Backend (Laravel)
+- app/Http/Controllers/AuthController.php: Логика обработки запросов на регистрацию и авторизацию.
+- app/Models/User.php: Модель пользователя с необходимыми правилами валидации.
+- routes/api.php: Маршруты для регистрации и авторизации с использованием JWT.
+- app/Providers/AuthServiceProvider.php: Настройки для работы с JWT.
+
+## Как использовать
+
+### 1. Регистрация пользователя:
+- Перейдите на страницу регистрации в веб-приложении.
+- Заполните форму с обязательными полями (имя, email, пароль).
+- После успешной регистрации вы будете перенаправлены на страницу входа.
+
+### 2. Авторизация пользователя:
+- Введите email и пароль на странице авторизации.
+- Если данные корректны, вы получите JWT-токен, который будет использован для дальнейших запросов к API.
+
+### 3. API-интерфейс
+- кроме веб-интерфейса предусмотрен веб-интерфейс для работы через Postman или схожее ПО
+
+## Тесты
+
+Для запуска автотестов на Laravel используйте команду:
+php artisan test
+
+Тесты будут проверять корректность регистрации пользователей, а также авторизацию с использованием JWT.
+
+## Примечания
+Для работы с JWT используется библиотека tymon/jwt-auth для Laravel.
+Для фронтенда используется стандартный подход с ReactJS и Redux для управления состоянием.
