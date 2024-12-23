@@ -51,7 +51,7 @@ const Login = () => {
       {errors.password && <p className="error">{errors.password}</p>}
       <button type="submit">Login</button>
       <p className="form__footer">
-        Don't have an account? <Link to="/register">Register</Link>
+        Еще нет учетной записи? <Link to="/register">Регистрация</Link>
       </p>
     </form>
   );

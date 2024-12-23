@@ -13,7 +13,6 @@ class AuthTest extends TestCase
     public function test_user_can_register()
     {
         $response = $this->postJson('/api/register', [
-        //$response = $this->postJson('/register', [
             'name' => 'John Doe',
             'email' => 'johndoe@example.com',
             'password' => 'Password123',
@@ -29,7 +28,6 @@ class AuthTest extends TestCase
         $user = User::factory()->create(['password' => bcrypt('Password123')]);
 
         $response = $this->postJson('/api/login', [
-        //$response = $this->postJson('/login', [
             'email' => $user->email,
             'password' => 'Password123',
         ]);
@@ -44,7 +42,6 @@ class AuthTest extends TestCase
         $token = auth('api')->login($user);
 
         $response = $this->postJson('/api/logout', [], [
-        //$response = $this->postJson('/logout', [], [
             'Authorization' => "Bearer $token",
         ]);
 

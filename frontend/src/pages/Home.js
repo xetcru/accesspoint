@@ -21,7 +21,7 @@ function Home() {
 
   return (
     <div className="home">
-      {user ? <h1>Welcome, home!</h1> : <p>Loading...</p>}
+      {user ? <h1>Добро подаловать. Снова.</h1> : <p>Loading...</p>}
     </div>
   );
 }

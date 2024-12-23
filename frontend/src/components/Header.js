@@ -13,10 +13,10 @@ function Header() {
     <header className="header">
       <div className="header__logo">AccessPoint</div>
       <nav className="header__nav">
-        <Link to="/home">Home</Link>
-        {!token && <Link to="/login">Login</Link>}
-        {!token && <Link to="/register">Register</Link>}
-        {token && <button onClick={handleLogout}>Logout</button>}
+        <Link to="/home">Домой</Link>
+        {!token && <Link to="/login">Вход</Link>}
+        {!token && <Link to="/register">Регистрация</Link>}
+        {token && <button onClick={handleLogout}>Выход</button>}
       </nav>
     </header>
   );

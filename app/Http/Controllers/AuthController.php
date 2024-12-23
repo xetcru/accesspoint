@@ -68,12 +68,6 @@ class AuthController extends Controller
         return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
     }
 
-    // Получение текущего пользователя (для API)
-    /*public function user()
-    {
-        return response()->json(auth('api')->user());
-    }*/
-
     // Выход пользователя (веб)
     public function logout()
     {

@@ -59,7 +59,7 @@ const Register = () => {
       {errors.password && <p className="error">{errors.password}</p>}
       <button type="submit">Register</button>
       <p className="form__footer">
-        Already have an account? <Link to="/login">Login</Link>
+        Уже есть аккаунт? <Link to="/login">Вход</Link>
       </p>
     </form>
   );
