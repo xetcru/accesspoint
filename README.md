@@ -37,7 +37,7 @@
 
 ### 1. Клонирование репозитория
 
-git clone https://github.com/your-username/fullstack-auth-project.git
+git clone https://github.com/xetcru/accesspoint.git
 cd fullstack-auth-project
 
 ### 2. Установка зависимостей для бэкенда (Laravel)
