@@ -19,7 +19,11 @@ function Home() {
     fetchUser();
   }, []);
 
-  return user ? <div>Welcome, {user.name}</div> : <div>Loading...</div>;
+  return (
+    <div className="home">
+      {user ? <h1>Welcome, home!</h1> : <p>Loading...</p>}
+    </div>
+  );
 }
 
 export default Home;
