@@ -5,6 +5,12 @@ use App\Http\Controllers\AuthController;
 
 use Illuminate\Support\Facades\File;//
 
+// Редирект с корневого пути на /register
+Route::get('/', function () {
+    return redirect('/register');
+});
+
+// Отдача React
 Route::get('/{any}', function ($any) {
     $path = public_path("build/{$any}");
     if (File::exists($path) && !File::isDirectory($path)) {
