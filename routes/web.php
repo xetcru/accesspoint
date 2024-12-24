@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-use Illuminate\Support\Facades\File;//
+use Illuminate\Support\Facades\File;
 
 // Редирект с корневого пути на /register
 Route::get('/', function () {
-    return redirect('/register');
+    //return redirect('/register'); // можно просто переадресовать
+    return view('index');
 });
 
 // Отдача React
